@@ -1,9 +1,11 @@
 module Wherever
 
-  class Builder
+  class Builder < BasicObject
 
     instance_methods.each do |m|
-      undef_method m unless m =~ /^(__|respond_to|inspect|object_id)/
+      unless m =~ /^__/
+        undef_method m
+      end
     end
 
     def initialize
@@ -11,7 +13,11 @@ module Wherever
     end
 
     def to_proc
-      proc { |x| __replay_all_messages__(x) }
+      ::Proc.new { |x| __replay_all_messages__(x) }
+    end
+
+    def respond_to?(*args)
+      true
     end
 
     private

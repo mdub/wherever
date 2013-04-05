@@ -25,10 +25,10 @@ describe Wherever::Builder do
   describe "#to_proc" do
 
     it "returns a Proc that replays the message chain" do
-      builder = (where < 5)
+      builder = (where[:count] < 5)
       predicate = builder.to_proc
-      predicate.call(1).should be_true
-      predicate.call(6).should be_false
+      predicate.call(:count => 1).should be_true
+      predicate.call(:count => 6).should be_false
     end
 
   end
